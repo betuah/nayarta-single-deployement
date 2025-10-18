@@ -1,0 +1,9 @@
+version: '3.8'
+
+# Main docker-compose file - combines all services
+# Run with: docker-compose up -d
+
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge

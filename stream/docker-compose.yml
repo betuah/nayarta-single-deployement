@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: nayarta-stream
+    restart: unless-stopped
+    ports:
+      - "8554:8554"   # RTSP
+      - "8888:8888"   # HLS
+      - "9997:9997"   # API
+      - "9998:9998"   # Metrics
+    volumes:
+      - ./config/mediamtx.yml:/mediamtx.yml:ro
+      - ./data/mediamtx/recordings:/recordings
+      - ./data/mediamtx/hls:/hls
+    environment:
+      - MTX_CONF=/mediamtx.yml
+    networks:
+      - nayarta-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9997/v3/config/global/get"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  vernemq:
+    image: vernemq/vernemq:latest
+    container_name: nayarta-mqtt
+    restart: unless-stopped
+    ports:
+      - "${MQTT_PORT:-1883}:1883"       # MQTT TCP
+      - "${MQTT_WS_PORT:-8080}:8080"    # WebSocket
+    environment:
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=${VERNEMQ_ALLOW_ANONYMOUS:-off}
+      - DOCKER_VERNEMQ_USER_${VERNEMQ_USER}=${VERNEMQ_PASS}
+      - DOCKER_VERNEMQ_LISTENER__TCP__DEFAULT=1883
+      - DOCKER_VERNEMQ_LISTENER__WS__DEFAULT=8080
+      - DOCKER_VERNEMQ_LOG__CONSOLE__LEVEL=info
+      - DOCKER_VERNEMQ_PLUGINS__VMQ_PASSWD=on
+      - DOCKER_VERNEMQ_PLUGINS__VMQ_ACL=on
+    volumes:
+      - ./data/mqtt:/var/lib/vernemq
+    networks:
+      - nayarta-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "1883"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge

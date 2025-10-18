@@ -1,0 +1,53 @@
+# Environment files
+.env
+.env.local
+.env.production
+
+# Real environment files (keep examples tracked)
+config/env/api.env
+config/env/admin.env
+config/env/frontend.env
+
+# Docker volumes and data
+data/
+!data/database/
+!data/database/*.sql
+!data/database/*.dump
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup files
+*.bak
+*.backup
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.p12
+
+# MinIO data (if using local storage)
+minio-data/
+
+# PostgreSQL data (if using local storage)
+postgres-data/
+
+# MediaMTX recordings (optional - uncomment if you don't want to track recordings)
+# data/mediamtx/recordings/
+
+# MQTT data (optional - uncomment if you don't want to track MQTT data)
+# data/mosquitto/data/

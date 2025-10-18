@@ -1,0 +1,52 @@
+services:
+  api:
+    image: docker.io/dbeesar/beesar-vms-dev:latest
+    container_name: nayarta-vms-api
+    ports:
+      - "8457:8080"
+    env_file:
+      - ./config/env/api.env
+    networks:
+      - nayarta-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  admin:
+    image: docker.io/dbeesar/beesar-vms-admin:latest
+    container_name: nayarta-vms-admin
+    ports:
+      - "8456:3000"
+    env_file:
+      - ./config/env/admin.env
+    environment:
+      - NEXTAUTH_URL=${ADMIN_NEXTAUTH_URL:-http://localhost:8456}
+      - SECRET_KEY=${ADMIN_SECRET_KEY:-change-me}
+      - DATABASE_URL=${ADMIN_DATABASE_URL:-postgres://auth:change-me@local/vms_development}
+    networks:
+      - nayarta-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    image: docker.io/dbeesar/beesar-vms-cloud:latest
+    container_name: nayarta-vms-frontend
+    ports:
+      - "80:3000"
+    env_file:
+      - ./config/env/frontend.env
+    environment:
+      - API_BASE_URL=${FRONTEND_API_BASE_URL:-http://localhost:8457/api/v1}
+      - NEXTAUTH_URL=${FRONTEND_NEXTAUTH_URL:-http://localhost:80}
+      - DATABASE_URL=${FRONTEND_DATABASE_URL}
+      - JWT_PRIVATE_KEY_BASE64=${FRONTEND_JWT_PRIVATE_KEY_BASE64}
+    networks:
+      - nayarta-network
+    depends_on:
+      - api
+
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge

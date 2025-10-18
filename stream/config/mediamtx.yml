@@ -1,0 +1,128 @@
+# Logging
+logLevel: info
+logDestinations: [stdout]
+
+#authMethod: jwt
+#authJWTJWKS: https://api.beesar.id/api/v1/stream-auth/.well-known/jwks.json
+#authJWTClaimKey: p
+
+authInternalUsers:
+  # Username. 'any' means any user, including anonymous ones.
+- user: any
+  # Password. Not used in case of 'any' user.
+  pass:
+  # IPs or networks allowed to use this user. An empty list means any IP.
+  ips: []
+  # List of permissions.
+  permissions:
+    # Available actions are: publish, read, playback, api, metrics, pprof.
+  - action: publish
+    # Paths can be set to further restrict access to a specific path.
+    # An empty path means any path.
+    # Regular expressions can be used by using a tilde as prefix.
+    path:
+  - action: read
+    path:
+  - action: api
+    path:
+  - action: metrics
+    path:
+
+
+###############################################
+# Global settings -> Metrics
+
+# Enable Prometheus-compatible metrics.
+metrics: yes
+# Address of the metrics HTTP listener.
+metricsAddress: :9998
+# Enable TLS/HTTPS on the Metrics server.
+#metricsEncryption: no
+# Path to the server key. This is needed only when encryption is yes.
+# This can be generated with:
+# openssl genrsa -out server.key 2048
+# openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
+#metricsServerKey: server.key
+# Path to the server certificate.
+#metricsServerCert: server.crt
+# Value of the Access-Control-Allow-Origin header provided in every HTTP response.
+metricsAllowOrigin: '*'
+# List of IPs or CIDRs of proxies placed before the HTTP server.
+# If the server receives a request from one of these entries, IP in logs
+# will be taken from the X-Forwarded-For header.
+#metricsTrustedProxies: []
+
+# API settings
+api: yes
+apiAddress: :9997
+#apiEncryption: yes
+#apiServerKey: /etc/letsencrypt/live/stream.tekno-tools.com/privkey.pem
+#apiServerCert: /etc/letsencrypt/live/stream.tekno-tools.com/fullchain.pem
+apiAllowOrigin: '*'
+#apiTrustedProxies: []
+
+# WebRTC global settings
+webrtc: no
+webrtcAddress: :8889
+#webrtcIceServers2: [stun:stun.l.google.com:19302]
+webrtcEncryption: no
+webrtcServerKey: /etc/letsencrypt/live/stream.nayarta.id-0001/privkey.pem
+webrtcServerCert: /etc/letsencrypt/live/stream.nayarta.id-0001/fullchain.pem
+webrtcAllowOrigin: '*'
+webrtcLocalUDPAddress: :8189
+webrtcLocalTCPAddress: :8189
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+webrtcIPsFromInterfaces: no
+webrtcAdditionalHosts: ["stream.nayarta.id", "157.245.144.112"]
+webrtcHandshakeTimeout: 20s
+webrtcTrackGatherTimeout: 5s
+webrtcSTUNGatherTimeout: 10s
+
+# RTSP settings
+rtsp: yes
+rtspAddress: :8554
+rtspTransports: [tcp, multicast, udp]
+
+# Timeout of read operations.
+readTimeout: 30s
+# Timeout of write operations.
+writeTimeout: 30s
+# Size of the queue of outgoing packets.
+# A higher value allows to increase throughput, a lower value allows to save RAM.
+writeQueueSize: 512
+
+# RTMP settings
+rtmp: no
+rtmpAddress: :1935
+rtmpEncryption: "no"
+
+# HLS global settings
+hls: yes
+hlsAlwaysRemux: yes
+hlsAddress: :8888
+hlsSegmentDuration: 4s
+hlsPartDuration: 200ms
+hlsSegmentCount: 20
+hlsAllowOrigin: '*'
+hlsEncryption: no
+hlsSegmentMaxSize: 50MB
+hlsServerKey: /etc/letsencrypt/live/stream.nayarta.id-0001/privkey.pem
+hlsServerCert: /etc/letsencrypt/live/stream.nayarta.id-0001/fullchain.pem
+# Variant of the HLS protocol to use. Available options are:
+# * mpegts - uses MPEG-TS segments, for maximum compatibility.
+# * fmp4 - uses fragmented MP4 segments, more efficient.
+# * lowLatency - uses Low-Latency HLS.
+hlsVariant: fmp4
+# The muxer will be closed when there are no
+# reader requests and this amount of time has passed.
+# hlsMuxerCloseAfter: 180s
+
+# Path configurations
+paths:
+  all:
+    runOnDemand: >-
+      ffmpeg -i rtsp://localhost:${RTSP_PORT}/${MTX_PATH}
+      -c copy -f rtsp -rtsp_transport tcp rtsp://localhost:${RTSP_PORT}/${MTX_PATH}
+    runOnDemandRestart: yes
+    runOnDemandStartTimeout: 10s

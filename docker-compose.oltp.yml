@@ -1,0 +1,71 @@
+services:
+  ch-server:
+    image: clickhouse/clickhouse-server:latest
+    container_name: ch-server
+    ports:
+      - "8124:8123"  # HTTP interface (changed to avoid conflict)
+      - "9000:9000"  # Native client interface
+      - "9009:9009"  # Optional interserver communication port
+    volumes:
+      - ch_data:/var/lib/clickhouse
+      - ch_logs:/var/log/clickhouse-server
+      - ./config/clickhouse/kafka.xml:/etc/clickhouse-server/config.d/kafka.xml
+      - ./config/clickhouse/disable_logging.xml:/etc/clickhouse-server/users.d/disable_logging.xml
+      - ./config/clickhouse/z_completely_disable_logging.xml:/etc/clickhouse-server/config.d/z_completely_disable_logging.xml
+      - ./config/clickhouse/disable_verbose_file_logging.xml:/etc/clickhouse-server/config.d/disable_verbose_file_logging.xml
+      #- ./config/clickhouse/trace_log.xml:/etc/clickhouse-server/config.d/trace_log.xml
+    environment:
+      CLICKHOUSE_USER: 'default'
+      CLICKHOUSE_PASSWORD: 'beEs4rP@ssW0rD!'
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      - nayarta-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  ch-ui:
+    image: ghcr.io/caioricciuti/ch-ui:latest
+    restart: always
+    container_name: ch-ui
+    environment:
+      VITE_CLICKHOUSE_URL: "http://ch-server:8123"
+      VITE_CLICKHOUSE_USER: "default"
+      VITE_CLICKHOUSE_PASS: "beEs4rP@ssW0rD!"
+    networks:
+      - nayarta-network
+    depends_on:
+      ch-server:
+        condition: service_healthy
+
+  ch-proxy:
+    image: nginx:latest
+    container_name: ch-proxy
+    ports:
+      - "8081:80"
+    volumes:
+      - ./config/clickhouse/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/clickhouse/htpasswd:/etc/nginx/.htpasswd
+    networks:
+      - nayarta-network
+    depends_on:
+      - ch-ui
+    restart: always
+
+volumes:
+  ch_data:
+    name: nayarta_clickhouse_data
+  ch_logs:
+    name: nayarta_clickhouse_logs
+
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge
