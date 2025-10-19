@@ -3,6 +3,8 @@
 .env.local
 .env.production
 
+app/src/**
+
 # Real environment files (keep examples tracked)
 config/env/api.env
 config/env/admin.env
