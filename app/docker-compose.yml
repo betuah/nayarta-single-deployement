@@ -100,7 +100,7 @@ services:
     #   - .env
     environment:
       - NEXTAUTH_URL=${ADMIN_NEXTAUTH_URL:-http://localhost:8456}
-      - SECRET_KEY=${ADMIN_SECRET_KEY:-change-me}
+      - NEXTAUTH_SECRET=${ADMIN_NEXTAUTH_SECRET:-change-me}
       - DATABASE_URL=${ADMIN_DATABASE_URL}
     networks:
       - nayarta-network
