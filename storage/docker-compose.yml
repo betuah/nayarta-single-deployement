@@ -72,6 +72,12 @@ services:
       /usr/bin/mc cp .gitkeep nayarta/$${MINIO_BUCKETS%% *}/public/.gitkeep;
       /usr/bin/mc anonymous set public nayarta/$${MINIO_BUCKETS%% *}/public;
       /usr/bin/mc anonymous get nayarta/$${MINIO_BUCKETS%% *}/public;
+
+      # Create service account
+      echo 'Creating service account for user: $$MINIO_APP_USER and access key: $$MINIO_ACCESS_KEY and secret key: $$MINIO_SECRET_KEY';
+      /usr/bin/mc admin user svcacct add nayarta $$MINIO_ROOT_USER --access-key $$MINIO_ACCESS_KEY --secret-key $$MINIO_SECRET_KEY;
+      
+      echo 'Setup Finish! MinIO nayarta is ready to use with public folders $${MINIO_BUCKETS} and service account $${MINIO_ROOT_USER}';
       exit 0;
       "
 
