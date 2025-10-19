@@ -15,7 +15,7 @@ networks:
 services:
   api:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-dev:onprem-latest
+    image: beesar/beesar-vms-dev:latest
     container_name: nayarta-vms-api
     restart: unless-stopped
     ports:
