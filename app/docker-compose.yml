@@ -58,7 +58,7 @@ services:
       # MQTT Connection (from stream service)
       - MQTT_HOST=${MQTT_HOST:-nayarta-mqtt}
       - MQTT_USERNAME=${MQTT_USER:-mqttuser}
-      - MQTT_PASSWORD=${MQTT_USER_PASS}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
       - MQTT_PORT=${MQTT_PORT:-1883}
       - MQTT_TLS=${MQTT_TLS:-false}
       
