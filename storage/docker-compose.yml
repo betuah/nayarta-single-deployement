@@ -15,8 +15,8 @@ services:
     image: minio/minio:latest
     container_name: nayarta-minio
     restart: unless-stopped
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     ports:
       - "9100:9000"
       - "9101:9001"
