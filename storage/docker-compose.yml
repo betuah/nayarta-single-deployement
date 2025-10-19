@@ -67,15 +67,11 @@ services:
       done;
 
       echo \"Creating public folder with public ACL\";
-      /usr/bin/mc cp /dev/null nayarta/$${MINIO_BUCKETS%% *}/public/.gitkeep;
+      touch .gitkeep;
+      echo \"Public folder created\" >> .gitkeep;
+      /usr/bin/mc cp .gitkeep nayarta/$${MINIO_BUCKETS%% *}/public/.gitkeep;
       /usr/bin/mc anonymous set public nayarta/$${MINIO_BUCKETS%% *}/public;
       /usr/bin/mc anonymous get nayarta/$${MINIO_BUCKETS%% *}/public;
-
-      echo \"Creating service account for user: $$MINIO_APP_USER and access key: $$MINIO_ACCESS_KEY and secret key: $$MINIO_SECRET_KEY\";
-      /usr/bin/mc admin user add nayarta $$MINIO_APP_USER $$MINIO_APP_PASSWORD;
-      /usr/bin/mc admin policy attach nayarta readwrite --user $$MINIO_APP_USER;
-      /usr/bin/mc admin user svcacct add nayarta $$MINIO_APP_USER --access-key $$MINIO_ACCESS_KEY --secret-key $$MINIO_SECRET_KEY;
-      echo 'Setup Finish! MinIO nayarta is ready to use';
       exit 0;
       "
 
