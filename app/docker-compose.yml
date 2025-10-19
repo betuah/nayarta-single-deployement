@@ -91,7 +91,7 @@ services:
 
   admin:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-admin:onpren-latest
+    image: beesar/beesar-vms-admin:onprem-latest
     container_name: nayarta-vms-admin
     restart: unless-stopped
     ports:
