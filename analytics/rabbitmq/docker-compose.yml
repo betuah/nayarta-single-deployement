@@ -17,8 +17,8 @@ services:
     image: rabbitmq:3-management-alpine
     container_name: nayarta-rabbitmq
     restart: unless-stopped
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     ports:
       - "${RABBITMQ_PORT:-5672}:5672"           # AMQP protocol
       - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"  # Management UI

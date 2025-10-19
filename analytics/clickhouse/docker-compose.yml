@@ -17,8 +17,8 @@ services:
     image: clickhouse/clickhouse-server:latest
     container_name: nayarta-ch-server
     restart: unless-stopped
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     ports:
       - "8124:8123"  # HTTP interface
       - "9002:9000"  # Native client interface
