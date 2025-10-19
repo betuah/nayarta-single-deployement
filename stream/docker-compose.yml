@@ -1,10 +1,22 @@
-version: '3.8'
+# =============================================================================
+# STREAM SERVICES ONLY - For standalone stream server
+# =============================================================================
+# Usage: docker-compose -f docker-compose.stream.yml up -d
+# =============================================================================
+
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge
 
 services:
   mediamtx:
-    image: bluenviron/mediamtx:latest
+    profiles: ["stream", "mediamtx", "all", "appstack"]
+    image: bluenviron/mediamtx:latest-ffmpeg
     container_name: nayarta-stream
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
       - "8554:8554"   # RTSP
       - "8888:8888"   # HLS
@@ -18,39 +30,90 @@ services:
       - MTX_CONF=/mediamtx.yml
     networks:
       - nayarta-network
+
+  emqx:
+    profiles: ["stream", "mqtt", "all", "appstack"]
+    image: emqx/emqx:5.7.1
+    container_name: nayarta-mqtt
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "1883:1883"    # MQTT TCP
+      - "8083:8083"    # MQTT WebSocket
+      - "8883:8883"    # MQTT SSL
+      - "8084:8084"    # MQTT WebSocket SSL
+      - "18083:18083"  # Dashboard
+    environment:
+      # Dashboard Admin User
+      - EMQX_DASHBOARD__DEFAULT_USERNAME=${EMQX_DASHBOARD_USER:-root}
+      - EMQX_DASHBOARD__DEFAULT_PASSWORD=${EMQX_DASHBOARD_PASS:-nayarta_root_password}
+      
+      # Authentication Configuration
+      # - EMQX_AUTHENTICATION__1__BACKEND=built_in_database
+      # - EMQX_AUTHENTICATION__1__MECHANISM=password_based
+      # - EMQX_AUTHENTICATION__1__PASSWORD_HASH_ALGORITHM__NAME=sha256
+      # - EMQX_AUTHENTICATION__1__PASSWORD_HASH_ALGORITHM__SALT_POSITION=suffix
+      # - EMQX_AUTHENTICATION__1__ENABLE=true
+      
+      # Listener Configuration - DISABLE anonymous
+      # - EMQX_LISTENERS__TCP__DEFAULT__ENABLE_AUTHN=true
+      # - EMQX_LISTENERS__TCP__DEFAULT__MAX_CONNECTIONS=1024000
+      # - EMQX_LISTENERS__WS__DEFAULT__ENABLE_AUTHN=true
+      # - EMQX_LISTENERS__SSL__DEFAULT__ENABLE_AUTHN=true
+      # - EMQX_LISTENERS__WSS__DEFAULT__ENABLE_AUTHN=true
+      
+      # Security - Force authentication
+      - EMQX_ALLOW_ANONYMOUS=false
+      
+      # Node configuration
+      - EMQX_NODE_NAME=emqx@nayarta-mqtt
+      - EMQX_CLUSTER__DISCOVERY_STRATEGY=static
+      - EMQX_CLUSTER__STATIC__SEEDS=[emqx@nayarta-mqtt]
+      
+      # Logging
+      - EMQX_LOG__CONSOLE__LEVEL=info
+    volumes:
+      - ./data/emqx/data:/opt/emqx/data
+      - ./data/emqx/log:/opt/emqx/log
+    networks:
+      - nayarta-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9997/v3/config/global/get"]
+      test: ["CMD", "sh", "-c", "grep -q 075B /proc/net/tcp"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
-  vernemq:
-    image: vernemq/vernemq:latest
-    container_name: nayarta-mqtt
-    restart: unless-stopped
-    ports:
-      - "${MQTT_PORT:-1883}:1883"       # MQTT TCP
-      - "${MQTT_WS_PORT:-8080}:8080"    # WebSocket
-    environment:
-      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=${VERNEMQ_ALLOW_ANONYMOUS:-off}
-      - DOCKER_VERNEMQ_USER_${VERNEMQ_USER}=${VERNEMQ_PASS}
-      - DOCKER_VERNEMQ_LISTENER__TCP__DEFAULT=1883
-      - DOCKER_VERNEMQ_LISTENER__WS__DEFAULT=8080
-      - DOCKER_VERNEMQ_LOG__CONSOLE__LEVEL=info
-      - DOCKER_VERNEMQ_PLUGINS__VMQ_PASSWD=on
-      - DOCKER_VERNEMQ_PLUGINS__VMQ_ACL=on
-    volumes:
-      - ./data/mqtt:/var/lib/vernemq
-    networks:
-      - nayarta-network
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "1883"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  # emqx-init:
+  #   profiles: ["stream", "mqtt", "all", "appstack"]
+  #   image: curlimages/curl:latest
+  #   container_name: nayarta-mqtt-init
+  #   depends_on: 
+  #     emqx:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - EMQX_DASHBOARD_USER=${EMQX_DASHBOARD_USER}
+  #     - EMQX_DASHBOARD_PASS=${EMQX_DASHBOARD_PASS}
+  #     - MQTT_USER=${MQTT_USER}
+  #     - MQTT_USER_PASS=${MQTT_USER_PASS}
+  #   networks:
+  #     - nayarta-network
+  #   entrypoint: ["/bin/sh", "-c"]
+  #   command:
+  #     - |
+  #       echo "⏳ Waiting for EMQX API to be ready..."
+  #       sleep 15
+        
+  #       echo "Creating MQTT user: $${MQTT_USER}"
+  #       curl -s -u "$${EMQX_DASHBOARD_USER}:$${EMQX_DASHBOARD_PASS}" \
+  #         -X POST "http://nayarta-mqtt:18083/api/v5/authentication/password_based:built_in_database/users" \
+  #         -H "Content-Type: application/json" \
+  #         -d "{\"user_id\":\"$${MQTT_USER}\",\"password\":\"$${MQTT_USER_PASS}\"}" \
+  #         | grep -q '"code":0' \
+  #         && echo "✅ MQTT user '$${MQTT_USER}' created successfully!" \
+  #         || echo "⚠️  MQTT user may already exist or failed to create."
+  #   restart: "no"
 
-networks:
-  nayarta-network:
-    name: nayarta-network
-    driver: bridge

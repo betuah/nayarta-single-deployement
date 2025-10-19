@@ -1,9 +1,41 @@
-version: '3.8'
 
-# Main docker-compose file - combines all services
-# Run with: docker-compose up -d
+# =============================================================================
+# NAYARTA VMS - Main Docker Compose (Include-based)
+# =============================================================================
+#
+# USAGE:
+# ------
+# 1. Run ALL services:
+#    docker-compose --profile all up -d
+#
+# 2. Run specific profiles:
+#    docker-compose --profile database up -d
+#    docker-compose --profile storage up -d
+#    docker-compose --profile stream up -d
+#    docker-compose --profile app up -d
+#    docker-compose --profile appstack up -d
+#    docker-compose --profile analytics up -d
+#    docker-compose --profile rabbitmq up -d
+#    docker-compose --profile clickhouse up -d
+#
+# 3. Run multiple profiles:
+#    docker-compose --profile database --profile app up -d
+#    docker-compose --profile analytics up -d  # RabbitMQ + ClickHouse
+#
+# 4. Individual files (each uses its own .env):
+#    cd database && docker-compose up -d
+#    cd analytics/rabbitmq && docker-compose up -d
+#
+# 5. Stack-based:
+#    docker-compose -f docker-compose.appstack.yml up -d
+#
+# =============================================================================
 
-networks:
-  nayarta-network:
-    name: nayarta-network
-    driver: bridge
+# Include all service compose files
+include:
+  - path: database/docker-compose.yml
+  - path: storage/docker-compose.yml
+  - path: stream/docker-compose.yml
+  - path: app/docker-compose.yml
+  - path: analytics/rabbitmq/docker-compose.yml
+  - path: analytics/clickhouse/docker-compose.yml

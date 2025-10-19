@@ -1,0 +1,46 @@
+# =============================================================================
+# RABBITMQ - Message Queue for AI Processing
+# =============================================================================
+# Usage: docker-compose -f rabbitmq/docker-compose.yml up -d
+# 
+# RabbitMQ message broker untuk AI task processing
+# =============================================================================
+
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge
+
+services:
+  rabbitmq:
+    profiles: ["rabbitmq", "all", "analytics"]
+    image: rabbitmq:3-management-alpine
+    container_name: nayarta-rabbitmq
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"           # AMQP protocol
+      - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"  # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-nayarta}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-nayarta_rabbitmq_password}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-nayarta}
+    volumes:
+      - ./data:/var/lib/rabbitmq
+      - ./logs:/var/log/rabbitmq
+    networks:
+      - nayarta-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  rabbitmq_data:
+    name: nayarta_rabbitmq_data
+  rabbitmq_logs:
+    name: nayarta_rabbitmq_logs
+
