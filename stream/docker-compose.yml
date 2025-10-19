@@ -98,7 +98,7 @@ services:
   #     - EMQX_DASHBOARD_USER=${EMQX_DASHBOARD_USER}
   #     - EMQX_DASHBOARD_PASS=${EMQX_DASHBOARD_PASS}
   #     - MQTT_USER=${MQTT_USER}
-  #     - MQTT_USER_PASS=${MQTT_USER_PASS}
+  #     - MQTT_USER_PASS=${MQTT_PASSWORD}
   #   networks:
   #     - nayarta-network
   #   entrypoint: ["/bin/sh", "-c"]
@@ -117,3 +117,12 @@ services:
   #         || echo "⚠️  MQTT user may already exist or failed to create."
   #   restart: "no"
 
+volumes:
+  mediamtx_data:
+    name: nayarta_mediamtx_data
+  mediamtx_logs:
+    name: nayarta_mediamtx_logs
+  emqx_data:
+    name: nayarta_emqx_data
+  emqx_logs:
+    name: nayarta_emqx_logs

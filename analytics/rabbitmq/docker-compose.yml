@@ -38,9 +38,8 @@ services:
       retries: 3
       start_period: 40s
 
-volumes:
-  rabbitmq_data:
-    name: nayarta_rabbitmq_data
-  rabbitmq_logs:
-    name: nayarta_rabbitmq_logs
-
+# volumes:
+#   rabbitmq_data:
+#     name: nayarta_rabbitmq_data
+#   rabbitmq_logs:
+#     name: nayarta_rabbitmq_logs

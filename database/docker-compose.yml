@@ -38,3 +38,8 @@ services:
       retries: 3
       start_period: 40s
 
+# volumes:
+#   postgres_data:
+#     name: nayarta_postgres_data
+#   postgres_logs:
+#     name: nayarta_postgres_logs

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<clickhouse>
+    <!-- Unified logging configuration -->
+    <!-- Combines: warning (disable_logging) + information (disable_verbose_file_logging) + error (z_completely_disable_logging) -->
+    
+    <logger>
+        <!-- Production: minimal logging (error only) -->
+        <level>error</level>
+        <console>false</console>
+        <log>/dev/null</log>
+        
+        <!-- Development: uncomment untuk warning level -->
+        
+        <level>warning</level>
+        <console>true</console>
+        <log>/var/log/clickhouse-server/clickhouse-server.log</log>
+       
+        
+        <!-- Debug: uncomment untuk information level -->
+        
+        <level>information</level>
+        <console>true</console>
+        <log>/var/log/clickhouse-server/clickhouse-server.log</log>
+        <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
+       
+    </logger>
+</clickhouse>

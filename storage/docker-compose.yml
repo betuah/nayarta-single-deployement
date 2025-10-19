@@ -71,3 +71,8 @@ services:
       exit 0;
       "
 
+# volumes:
+#   minio_data:
+#     name: nayarta_minio_data
+#   minio_logs:
+#     name: nayarta_minio_logs
