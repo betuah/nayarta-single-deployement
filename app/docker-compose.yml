@@ -46,12 +46,12 @@ services:
       # Object Storage (from storage service)
       - OBJECT_STORAGE_ACCESS_KEY_ID=${OBJECT_STORAGE_ACCESS_KEY_ID:-nayarta_app}
       - OBJECT_STORAGE_ACCESS_KEY_SECRET=${OBJECT_STORAGE_ACCESS_KEY_SECRET}
-      - OBJECT_STORAGE_DEFAULT_BUCKET=${MINIO_DEFAULT_BUCKET:-nayarta-storage}
-      - OBJECT_STORAGE_ENDPOINT=${MINIO_ENDPOINT:-http://nayarta-minio:9000}
-      - OBJECT_STORAGE_REGION=${MINIO_REGION:-us-east-1}
-      - OBJECT_STORAGE_USE_SSL=${MINIO_USE_SSL:-false}
-      - OBJECT_STORAGE_USE_PATH_STYLE=${MINIO_USE_PATH_STYLE:-true}
-      - OBJECT_STORAGE_PROVIDER=${MINIO_PROVIDER:-minio}
+      - OBJECT_STORAGE_DEFAULT_BUCKET=${OBJECT_STORAGE_DEFAULT_BUCKET:-nayarta-storage}
+      - OBJECT_STORAGE_ENDPOINT=${OBJECT_STORAGE_ENDPOINT:-http://nayarta-minio:9100}
+      - OBJECT_STORAGE_REGION=${OBJECT_STORAGE_REGION:-us-east-1}
+      - OBJECT_STORAGE_USE_SSL=${OBJECT_STORAGE_USE_SSL:-false}
+      - OBJECT_STORAGE_USE_PATH_STYLE=${OBJECT_STORAGE_USE_PATH_STYLE:-true}
+      - OBJECT_STORAGE_PROVIDER=${OBJECT_STORAGE_PROVIDER:-minio}
       
       # MQTT Connection (from stream service)
       - MQTT_HOST=${MQTT_HOST:-nayarta-mqtt}
@@ -91,7 +91,7 @@ services:
 
   admin:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-admin:onprem-latest
+    image: beesar/beesar-vms-admin:onpren-latest
     container_name: nayarta-vms-admin
     restart: unless-stopped
     ports:
