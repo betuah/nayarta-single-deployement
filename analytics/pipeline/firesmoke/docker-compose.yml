@@ -9,8 +9,8 @@ services:
     profiles: ["analytics", "all", "pipeline", "firesmoke"]
     container_name: nayarta-analytics-firesmoke
     restart: unless-stopped
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     environment:
       # ========= API ENDPOINTS =========
       - BASE_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
