@@ -1,32 +1,9 @@
 <?xml version="1.0"?>
 <clickhouse>
-    <!-- Logging Configuration -->
-
-    <!-- ========== PRODUCTION (Minimal) ========== -->
-    
     <logger>
         <level>error</level>
         <console>false</console>
-        <log>/dev/null</log>
-        <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
-    </logger>
-   
-
-    <!-- ========== DEVELOPMENT (Normal logs) ========== -->
-    <!-- <logger>
-        <level>information</level>
-        <console>true</console>
-        <log>/var/log/clickhouse-server/clickhouse-server.log</log>
-        <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
-    </logger> -->
-
-    <!-- ========== DEBUG (Verbose) ========== -->
-    <!--    
-    <logger>
-        <level>trace</level>
-        <console>true</console>
         <log>/var/log/clickhouse-server/clickhouse-server.log</log>
         <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
     </logger>
-    -->
 </clickhouse>
