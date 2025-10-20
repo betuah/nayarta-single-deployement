@@ -1,73 +1,75 @@
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge
+
 services:
   firesmoke-worker:
-    # build:
-    #   context: .
-    #   dockerfile: ./src/dockerfile
     image: beesar/analytics-firesmoke:latest
     profiles: ["analytics", "all", "pipeline", "firesmoke"]
     container_name: nayarta-inference-firesmoke
     restart: unless-stopped
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
     environment:
-      # ========== API ENDPOINTS ==========
-      - BASE_URL=${BASE_URL:-http://${HOST_IP:-localhost}:8457/api/v1}
-      - GET_VIDEO_DETAIL_API_LINK=${GET_VIDEO_DETAIL_API_LINK:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/}
-      - GET_VIDEO_API_LINK=${GET_VIDEO_API_LINK:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/access-download-url}
-      - UPLOAD_API_LINK=${UPLOAD_API_LINK:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/}
-      - REGISTER_FILE_API_LINK=${REGISTER_FILE_API_LINK:-http://${HOST_IP:-localhost}:8457/api/v1/files/key}
-      - URL_ANALYTIC_PROCESS=${URL_ANALYTIC_PROCESS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/analytic-processes/}
-      - URL_ANALYTIC_POST=${URL_ANALYTIC_POST:-http://${HOST_IP:-localhost}:8457/api/v1/analytics/key}
-      - URL_ALERT=${URL_ALERT:-http://${HOST_IP:-localhost}:8457/api/v1/alerts/key}
-      - URL_ANALYTIC_CONFIG=${URL_ANALYTIC_CONFIG:-http://${HOST_IP:-localhost}:8457/api/v1/cctv-analytics/key/config/}
-      - URL_PROCESSING_STATUS=${URL_PROCESSING_STATUS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/{id}/processing-status}
+      # ========= API ENDPOINTS =========
+      - BASE_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
+      - GET_VIDEO_DETAIL_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/
+      - GET_VIDEO_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/access-download-url
+      - UPLOAD_API_LINK=${API_BASE_URL_ANALYTICS }/files/key/
+      - REGISTER_FILE_API_LINK=${API_BASE_URL_ANALYTICS}/files/key
+      - URL_ANALYTIC_PROCESS=${API_BASE_URL_ANALYTICS}/files/key/analytic-processes/
+      - URL_ANALYTIC_POST=${API_BASE_URL_ANALYTICS}/analytics/key
+      - URL_ALERT=${API_BASE_URL_ANALYTICS}/alerts/key
+      - URL_ANALYTIC_CONFIG=${API_BASE_URL_ANALYTICS}/cctv-analytics/key/config/
+      - URL_PROCESSING_STATUS=${API_BASE_URL_ANALYTICS}/files/key/{id}/processing-status
 
-      # ========== CLICKHOUSE ==========
-      - CH_HOST=${CLICKHOUSE_HOST:-localhost}
-      - CH_UNAME=${CLICKHOUSE_USER:-default}
-      - CH_PASSWORD=${CLICKHOUSE_PASSWORD:-your_clickhouse_password}
+      # ========= CLICKHOUSE =========
+      - CH_HOST=${CLICKHOUSE_HOST}
+      - CH_UNAME=${CLICKHOUSE_USER}
+      - CH_PASSWORD=${CLICKHOUSE_PASSWORD}
 
-      # ========== RABBITMQ ==========
-      - RABBITMQ_HOST=${RABBITMQ_HOST_ANALYTICS:-${HOST_IP:-localhost}}
-      - RABBITMQ_PORT=${RABBITMQ_PORT:-5672}
-      - RABBITMQ_USERNAME=${RABBITMQ_USER:-queueuser}
-      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-queuePassword}
+      # ========= RABBITMQ =========
+      - RABBITMQ_HOST=${HOST_IP}
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
-      # ========== MQTT ==========
-      - MQTT_BROKER=${MQTT_HOST:-localhost}
-      - MQTT_PORT=${MQTT_PORT:-1883}
+      # ========= MQTT =========
+      - MQTT_BROKER=${MQTT_HOST}
+      - MQTT_PORT=${MQTT_PORT}
       - MQTT_TOPIC=${MQTT_TOPIC:-nayai/analytic_update}
-      - MQTT_UNAME=${MQTT_USER:-queueuser}
-      - MQTT_PASS=${MQTT_PASSWORD:-queuePassword}
+      - MQTT_UNAME=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASSWORD}
 
-      # ========== POSTGRES ==========
-      - PG_HOST=${DB_HOST_ANALYTICS:-172.32.69.14}
-      - PG_PORT=${DB_PORT_ANALYTICS:-5432}
-      - PG_DB=${DB_NAME_ANALYTICS:-analytics_db}
-      - PG_USER=${DB_USER_ANALYTICS:-admin}
-      - PG_PASS=${DB_PASSWORD_ANALYTICS:-your_postgres_password}
+      # ========= POSTGRES =========
+      - PG_HOST=${DB_HOST_ANALYTICS}
+      - PG_PORT=${DB_PORT_ANALYTICS}
+      - PG_DB=${DB_NAME_ANALYTICS}
+      - PG_USER=${DB_USER_ANALYTICS}
+      - PG_PASS=${DB_PASSWORD_ANALYTICS}
 
-      # ========== DIRECTORIES ==========
+      # ========= DIRECTORIES =========
       - RUNTIME_FOLDER=${RUNTIME_FOLDER:-evidence}
       - LOG_FOLDER=${LOG_FOLDER:-logs}
 
-      # ========== API KEY ==========
-      - API_KEY=${API_KEY_PIPELINE:-your_api_key_here}
+      # ========= API KEY =========
+      - API_KEY=${API_KEY_PIPELINE}
 
-    # Volumes for model, video data, evidence, and logs
     volumes:
-      - ./model:/app/model:ro         # Model file (read-only)
-      - ./video_data:/app/video_data  # Video data (input)
-      - ../shared_data:/app/evidence  # Evidence/runtime output
-      - ./logs:/app/logs              # Logs
-      # - /path/to/tasks-repo:/opt/tasks:ro   # Optional: Mount tasks repository if separate
-    network_mode: host
+      - ./model:/app/model:ro
+      - ./video_data:/app/video_data
+      - ../shared_data:/app/evidence
+      - ./logs:/app/logs
+    networks:
+      - nayarta-network
     healthcheck:
       test: ["CMD", "celery", "-A", "run_firesmoke:app", "inspect", "ping", "-d", "celery@firesmoke"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
+
 
     # Default command is already set in dockerfile
     # Uncomment to override command
