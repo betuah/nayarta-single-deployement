@@ -56,6 +56,8 @@ services:
       # ========= API KEY =========
       - API_KEY=${API_KEY_PIPELINE}
 
+      - YOLO_CONFIG_DIR=/app/.ultralytics
+
     volumes:
       - ./model:/app/model:ro
       - ./video_data:/app/video_data
@@ -64,11 +66,11 @@ services:
     networks:
       - nayarta-network
     healthcheck:
-      test: ["CMD", "celery", "-A", "run_firesmoke:app", "inspect", "ping", "-d", "celery@firesmoke"]
+      test: ["CMD", "celery", "-A", "run_firesmoke:app", "inspect", "ping"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
+      start_period: 30s
 
 
     # Default command is already set in dockerfile
