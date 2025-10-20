@@ -59,7 +59,7 @@ services:
     volumes:
       - ./model:/app/model:ro
       - ./video_data:/app/video_data
-      - ../shared_data:/app/evidence
+      - ./evidence:/app/evidence
       - ./logs:/app/logs
     networks:
       - nayarta-network
