@@ -36,7 +36,7 @@ services:
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
       # ========= MQTT =========
-      - MQTT_BROKER=${MQTT_HOST}
+      - MQTT_BROKER=${HOST_IP}
       - MQTT_PORT=${MQTT_PORT}
       - MQTT_TOPIC=${MQTT_TOPIC:-nayai/analytic_update}
       - MQTT_UNAME=${MQTT_USER}
