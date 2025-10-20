@@ -18,3 +18,20 @@ docker build \
   --build-arg NEXTAUTH_URL="http://localhost:8456" \
   --build-arg DATABASE_URL='postgres://db_manager:bd37f728d7bfb0e6a908b37e86ebfe8a2ee85faa@nayarta-postgres:5432/vms_development' \
   -t beesar/beesar-vms-admin .
+```
+
+## Manual Restore Database
+```sh
+# 1️⃣ Restore global roles & permissions
+psql -U admin -d postgres -f /docker-entrypoint-initdb.d/globals.sql
+
+# 2️⃣ Create Database
+psql -U admin -d postgres -c "CREATE DATABASE vms_development;"
+psql -U admin -d postgres -c "CREATE DATABASE analytics_db;"
+psql -U admin -d postgres -c "CREATE DATABASE schedulerdb;"
+
+# 3️⃣ Restore Database
+pg_restore -U admin -d vms_development /docker-entrypoint-initdb.d/vms_development.dump
+pg_restore -U admin -d analytics_db /docker-entrypoint-initdb.d/analytics_db.dump
+pg_restore -U admin -d schedulerdb /docker-entrypoint-initdb.d/schedulerdb.dump
+```
