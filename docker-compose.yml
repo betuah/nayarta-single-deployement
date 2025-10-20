@@ -39,3 +39,5 @@ include:
   - path: app/docker-compose.yml
   - path: analytics/rabbitmq/docker-compose.yml
   - path: analytics/clickhouse/docker-compose.yml
+
+  - path: analytics/pipeline/firesmoke/docker-compose.yml
