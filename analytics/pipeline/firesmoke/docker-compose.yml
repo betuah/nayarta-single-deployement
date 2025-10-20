@@ -1,8 +1,8 @@
 services:
   firesmoke-worker:
-    build:
-      context: .
-      dockerfile: ./src/dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./src/dockerfile
     image: beesar/analytics-firesmoke:latest
     profiles: ["analytics", "all", "pipeline", "firesmoke"]
     container_name: nayarta-inference-firesmoke
