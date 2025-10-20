@@ -16,7 +16,7 @@ services:
       - BASE_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
       - GET_VIDEO_DETAIL_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/
       - GET_VIDEO_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/access-download-url
-      - UPLOAD_API_LINK=${API_BASE_URL_ANALYTICS }/files/key/
+      - UPLOAD_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/
       - REGISTER_FILE_API_LINK=${API_BASE_URL_ANALYTICS}/files/key
       - URL_ANALYTIC_PROCESS=${API_BASE_URL_ANALYTICS}/files/key/analytic-processes/
       - URL_ANALYTIC_POST=${API_BASE_URL_ANALYTICS}/analytics/key
