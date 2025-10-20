@@ -7,7 +7,7 @@ services:
   firesmoke-worker:
     image: beesar/analytics-firesmoke:latest
     profiles: ["analytics", "all", "pipeline", "firesmoke"]
-    container_name: nayarta-inference-firesmoke
+    container_name: nayarta-analytics-firesmoke
     restart: unless-stopped
     env_file:
       - .env
