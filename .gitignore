@@ -37,7 +37,7 @@ Thumbs.db
 *.backup
 
 # Backup files
-backup/dumps/** *.*
+database/backup/dumps/
 
 # SSL certificates
 *.pem
