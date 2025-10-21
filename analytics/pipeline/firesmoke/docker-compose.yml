@@ -60,7 +60,7 @@ services:
     volumes:
       - ./model:/app/model:ro
       - ./video_data:/app/video_data
-      - ./evidence:/app/evidence
+      - ../shared_data/evidence:/app/evidence
       - ./logs:/app/logs
     networks:
       - nayarta-network
@@ -128,7 +128,7 @@ services:
     volumes:
       - ./model:/app/model:ro
       - ./video_data:/app/video_data
-      - ./evidence:/app/evidence
+      - ../shared_data/evidence:/app/evidence
       - ./logs:/app/logs
     networks:
       - nayarta-network
