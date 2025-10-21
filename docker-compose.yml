@@ -41,3 +41,4 @@ include:
   - path: analytics/clickhouse/docker-compose.yml
 
   - path: analytics/pipeline/firesmoke/docker-compose.yml
+  - path: analytics/scheduler/docker-compose.yml
