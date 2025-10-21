@@ -14,3 +14,6 @@ pg_restore -U admin -d analytics_db /docker-entrypoint-initdb.d/analytics_db.dum
 pg_restore -U admin -d schedulerdb /docker-entrypoint-initdb.d/schedulerdb.dump
 
 ```
+
+### Running backup
+docker compose --profile dbbackup up
