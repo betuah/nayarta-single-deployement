@@ -56,3 +56,5 @@ postgres-data/
 
 # MQTT data (optional - uncomment if you don't want to track MQTT data)
 # data/mosquitto/data/
+
+database/scripts/*.sh text eol=lf
