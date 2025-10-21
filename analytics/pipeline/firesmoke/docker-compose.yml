@@ -13,16 +13,16 @@ services:
     #   - .env
     environment:
       # ========= API ENDPOINTS =========
-      - BASE_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
-      - GET_VIDEO_DETAIL_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/
-      - GET_VIDEO_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/access-download-url
-      - UPLOAD_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/
-      - REGISTER_FILE_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key
-      - URL_ANALYTIC_PROCESS=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/analytic-processes/
-      - URL_ANALYTIC_POST=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/analytics/key
-      - URL_ALERT=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/alerts/key
-      - URL_ANALYTIC_CONFIG=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/cctv-analytics/key/config/
-      - URL_PROCESSING_STATUS=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/{id}/processing-status
+      - BASE_URL="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}"
+      - GET_VIDEO_DETAIL_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/}"
+      - GET_VIDEO_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/access-download-url}"
+      - UPLOAD_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/}"
+      - REGISTER_FILE_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key}"
+      - URL_ANALYTIC_PROCESS="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/analytic-processes/}"
+      - URL_ANALYTIC_POST="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/analytics/key}"
+      - URL_ALERT="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/alerts/key}"
+      - URL_ANALYTIC_CONFIG="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/cctv-analytics/key/config/}"
+      - URL_PROCESSING_STATUS="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/{id}/processing-status}"
 
       # ========= CLICKHOUSE =========
       - CH_HOST=${CLICKHOUSE_HOST}
@@ -80,16 +80,16 @@ services:
     #   - .env
     environment:
       # ========= API ENDPOINTS =========
-      - BASE_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
-      - GET_VIDEO_DETAIL_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/
-      - GET_VIDEO_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/access-download-url
-      - UPLOAD_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/
-      - REGISTER_FILE_API_LINK=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key
-      - URL_ANALYTIC_PROCESS=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/analytic-processes/
-      - URL_ANALYTIC_POST=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/analytics/key
-      - URL_ALERT=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/alerts/key
-      - URL_ANALYTIC_CONFIG=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/cctv-analytics/key/config/
-      - URL_PROCESSING_STATUS=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/{id}/processing-status
+      - BASE_URL="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}"
+      - GET_VIDEO_DETAIL_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/}"
+      - GET_VIDEO_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/access-download-url}"
+      - UPLOAD_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/}"
+      - REGISTER_FILE_API_LINK="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key}"
+      - URL_ANALYTIC_PROCESS="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/analytic-processes/}"
+      - URL_ANALYTIC_POST="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/analytics/key}"
+      - URL_ALERT="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/alerts/key}"
+      - URL_ANALYTIC_CONFIG="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/cctv-analytics/key/config/}"
+      - URL_PROCESSING_STATUS="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1/files/key/{id}/processing-status}"
 
       # ========= CLICKHOUSE =========
       - CH_HOST=${CLICKHOUSE_HOST}
