@@ -20,7 +20,7 @@ services:
       - DB_PORT=${DB_PORT_ANALYTICS:-5432}
       
       # Nayarta API Configuration
-      - NAYARTA_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
+      - NAYARTA_URL="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457}"
       - NAYARTA_API_KEY=${API_KEY_PIPELINE}
       
       # Nayai Configuration
@@ -72,7 +72,7 @@ services:
       - DB_PORT=${DB_PORT_ANALYTICS:-5432}
       
       # Nayarta API Configuration
-      - NAYARTA_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457}
+      - NAYARTA_URL="${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457}"
       - NAYARTA_API_KEY=${API_KEY_PIPELINE}
       
       # Nayai Configuration
