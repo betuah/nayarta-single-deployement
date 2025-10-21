@@ -72,6 +72,7 @@ services:
       - VLM_UNDERSTANDING_WEBHOOK_URL=${VLM_UNDERSTANDING_WEBHOOK_URL:-http://nayarta-vms-api:8080/api/v1/webhooks/ai-summary}
       
       # Email/SMTP
+      - DISABLE_EMAIL=${DISABLE_EMAIL:-true}
       - FROM_EMAIL=${FROM_EMAIL:-reply@mail.beesar.id}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_USERNAME=${SMTP_USERNAME}
@@ -120,6 +121,7 @@ services:
       - NEXTAUTH_SECRET=${FRONTEND_NEXTAUTH_SECRET}
       - DATABASE_URL=${FRONTEND_DATABASE_URL}
       - JWT_PRIVATE_KEY_BASE64=${FRONTEND_JWT_PRIVATE_KEY_BASE64}
+      - NEXT_PUBLIC_DISABLE_SUMMARIZATION=${NEXT_PUBLIC_DISABLE_SUMMARIZATION:-true}
     networks:
       - nayarta-network
     depends_on:
