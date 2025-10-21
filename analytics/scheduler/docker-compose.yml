@@ -1,3 +1,8 @@
+networks:
+  nayarta-network:
+    name: nayarta-network
+    driver: bridge
+
 services:
   scheduler-ui:
     image: beesar/analytics-scheduler:latest
@@ -81,8 +86,4 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
-
-networks:
-  nayai-network:
-    driver: bridge
 
