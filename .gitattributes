@@ -1,1 +1,7 @@
-database/scripts/*.sh text eol=lf
+# Force LF line endings for shell scripts on all platforms
+*.sh text eol=lf
+
+# Force LF for Docker related files
+Dockerfile* text eol=lf
+docker-compose*.yml text eol=lf
+*.dockerfile text eol=lf

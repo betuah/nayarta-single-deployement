@@ -2,17 +2,18 @@
 set -e
 
 DB_USER="${DB_USER:-admin}"
+DB_NAME="${POSTGRES_DB:-postgres}"
 
 echo "=== Starting database restoration ==="
 
 # Restore global objects (roles, tablespaces, etc.)
 if [ -f /dumps/globals.sql ]; then
     echo "Restoring globals..."
-    psql -U "$DB_USER" -f /dumps/globals.sql || echo "Warning: Some globals may already exist"
+    psql -U "$DB_USER" -d "$DB_NAME" -f /dumps/globals.sql || echo "Warning: Some globals may already exist"
 fi
 
 # Create databases if they don't exist
-psql -U "$DB_USER" <<-EOSQL
+psql -U "$DB_USER" -d "$DB_NAME" <<-EOSQL
     SELECT 'CREATE DATABASE analytics_db' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'analytics_db')\gexec
     SELECT 'CREATE DATABASE schedulerdb' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'schedulerdb')\gexec
     SELECT 'CREATE DATABASE vms_development' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'vms_development')\gexec

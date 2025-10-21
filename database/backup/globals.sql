@@ -2,7 +2,7 @@
 -- PostgreSQL database cluster dump
 --
 
-\restrict FbMWQBH6DNSnaiieChHPhlcBUVxxfTo144QJ22eGnVv6VbzfiCbhQJjDPllWoSk
+\restrict lGTHb9GlfDADYb3eOl9ytB5zkTnAwqkGcz1LabNt2mVcXINkV3MOTrUeP21LtkV
 
 SET default_transaction_read_only = off;
 
@@ -13,6 +13,8 @@ SET standard_conforming_strings = on;
 -- Roles
 --
 
+CREATE ROLE admin;
+ALTER ROLE admin WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:KDgqJGEBB99BbTAX5E0PBw==$u+nnRmbT6XU3T1R6XUFhcggcpdBzBdOXg++2MhUTq/E=:R4vW5F7LdNvgBAaAJEcZg/SmNN0ilevPgnFWo/ucH4Y=';
 CREATE ROLE aiuser;
 ALTER ROLE aiuser WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:LIQKxhXZQTmcPC1srPEt3Q==$Eyz8NGrQOLRkuWhijkavrKG/39CrNX//u/Fxw/EdcZM=:GzRV8LwjrCuWahyDR9XwiR2s7KRmQcjPV7a5nNxgPN4=';
 CREATE ROLE analytics;
@@ -49,8 +51,9 @@ ALTER ROLE mmuser SET search_path TO 'public';
 
 
 
-\unrestrict FbMWQBH6DNSnaiieChHPhlcBUVxxfTo144QJ22eGnVv6VbzfiCbhQJjDPllWoSk
+\unrestrict lGTHb9GlfDADYb3eOl9ytB5zkTnAwqkGcz1LabNt2mVcXINkV3MOTrUeP21LtkV
 
 --
 -- PostgreSQL database cluster dump complete
 --
+
