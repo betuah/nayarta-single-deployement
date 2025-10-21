@@ -24,7 +24,7 @@ services:
       - NAYARTA_API_KEY=${API_KEY_PIPELINE}
       
       # Nayai Configuration
-      - NAYAI_URL=${SCHEDULER_BASE_URL:-http://${HOST_IP:-localhost}:8458}
+      - NAYAI_URL=${SCHEDULER_BASE_URL:-http://${HOST_IP:-localhost}:8000}
       
       # RabbitMQ Configuration (External)
       - RMQ_HOST=${HOST_IP:-localhost}
@@ -65,7 +65,7 @@ services:
       - NAYARTA_API_KEY=${API_KEY_PIPELINE}
       
       # Nayai Configuration
-      - NAYAI_URL=${SCHEDULER_BASE_URL:-http://${HOST_IP:-localhost}:8458}
+      - NAYAI_URL=${SCHEDULER_BASE_URL:-http://${HOST_IP:-localhost}:8000}
       
       # RabbitMQ Configuration (External)
       - RMQ_HOST=${HOST_IP:-localhost}
