@@ -22,7 +22,6 @@ services:
       - URL_ANALYTIC_POST=${API_BASE_URL_ANALYTICS}/api/v1/analytics/key
       - URL_ALERT=${API_BASE_URL_ANALYTICS}/api/v1/alerts/key
       - URL_ANALYTIC_CONFIG=${API_BASE_URL_ANALYTICS}/api/v1/cctv-analytics/key/config/
-      - URL_PROCESSING_STATUS=${API_BASE_URL_ANALYTICS}/api/v1/files/key/{id}/processing-status
 
       # ========= CLICKHOUSE =========
       - CH_HOST=${CLICKHOUSE_HOST}
