@@ -50,7 +50,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       DB_BACKUP_NAME: ${DB_BACKUP_NAME:-vms_development,analytics_db,schedulerdb}
     volumes:
-      - ./backup:/dumps
+      - ./backup/dumps:/dumps
       - ./scripts/backup.sh:/backup.sh:ro
     networks:
       - nayarta-network
