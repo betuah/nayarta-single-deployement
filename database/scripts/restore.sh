@@ -20,10 +20,10 @@ psql -U "$DB_USER" -d "$DB_NAME" <<-EOSQL
 EOSQL
 
 # Restore database dumps
-if [ -f /dumps/analytics_db.dump ]; then
-    echo "Restoring analytics_db..."
-    pg_restore -U "$DB_USER" -d analytics_db --no-owner --no-acl --if-exists -c /dumps/analytics_db.dump 2>/dev/null || echo "Restore completed with some warnings (normal)"
-fi
+# # if [ -f /dumps/analytics_db.dump ]; then
+# #     echo "Restoring analytics_db..."
+# #     pg_restore -U "$DB_USER" -d analytics_db --no-owner --no-acl --if-exists -c /dumps/analytics_db.dump 2>/dev/null || echo "Restore completed with some warnings (normal)"
+# # fi
 
 if [ -f /dumps/schedulerdb.dump ]; then
     echo "Restoring schedulerdb..."

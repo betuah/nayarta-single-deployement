@@ -35,3 +35,20 @@ pg_restore -U admin -d vms_development /docker-entrypoint-initdb.d/vms_developme
 pg_restore -U admin -d analytics_db /docker-entrypoint-initdb.d/analytics_db.dump
 pg_restore -U admin -d schedulerdb /docker-entrypoint-initdb.d/schedulerdb.dump
 ```
+
+## NVIDIA Container toolkit
+### 1. Add NVIDIA package repositories
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+### 2. Install toolkit
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+
+### 3. Configure Docker
+sudo nvidia-ctk runtime configure --runtime=docker
+
+### 4. Restart Docker
+sudo service docker restart
