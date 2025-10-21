@@ -39,6 +39,35 @@ services:
       retries: 3
       start_period: 40s
 
+  postgres-backup:
+    profiles: ["dbbackup", "postgresbackup"]
+    image: postgres:16-alpine
+    container_name: nayarta-postgres-backup
+    command: >
+      bash -c "
+        TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+        BACKUP_DIR=/dumps/$TIMESTAMP
+        mkdir -p $BACKUP_DIR
+
+        echo '📦 Dumping globals (roles, permissions)...'
+        pg_dumpall -h nayarta-postgres -U ${DB_USER:-admin} --globals-only > $BACKUP_DIR/globals.sql
+
+        echo '📦 Dumping database...'
+        pg_dump -h nayarta-postgres -U ${DB_USER:-admin} -Fc -f $BACKUP_DIR/vms_development.dump vms_development
+        pg_dump -h nayarta-postgres -U ${DB_USER:-admin} -Fc -f $BACKUP_DIR/analytics_db.dump analytics_db
+        pg_dump -h nayarta-postgres -U ${DB_USER:-admin} -Fc -f $BACKUP_DIR/schedulerdb.dump schedulerdb
+
+        echo 'Backup completed: $BACKUP_DIR'
+        ls -lh $BACKUP_DIR
+      "
+    volumes:
+      - ./backup:/dumps
+    networks:
+      - nayarta-network
+    depends_on:
+      - postgres
+    restart: "no"
+
 # volumes:
 #   postgres_data:
 #     name: nayarta_postgres_data
