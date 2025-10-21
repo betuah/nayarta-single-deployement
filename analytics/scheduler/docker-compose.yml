@@ -44,6 +44,8 @@ services:
         python nayaiweb/manage.py makemigrations &&
         python nayaiweb/manage.py migrate &&
         python nayaiweb/manage.py shell < nayaiweb/create_superuser.py &&
+        python nayaiweb/manage.py loaddata nayai/fixtures/initial_data.json &&
+        python nayaiweb/manage.py loaddata nayai/fixtures/config.json &&
         python nayaiweb/manage.py runserver 0.0.0.0:8000
       "
     networks:
