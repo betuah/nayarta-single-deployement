@@ -34,9 +34,18 @@ services:
       
       # Debug Mode
       - DEBUG=${DEBUG:-False}
+
+      # Django Superuser Configuration
+      - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME:-admin}
+      - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-admin@nayarta.id}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD:-admin123}
     command: >
-      sh -c "python nayaiweb/manage.py migrate &&
-             python nayaiweb/manage.py runserver 0.0.0.0:8000"
+      sh -c "
+        python nayaiweb/manage.py makemigrations &&
+        python nayaiweb/manage.py migrate &&
+        python nayaiweb/manage.py shell < nayaiweb/create_superuser.py &&
+        python nayaiweb/manage.py runserver 0.0.0.0:8000
+      "
     networks:
       - nayarta-network
     healthcheck:

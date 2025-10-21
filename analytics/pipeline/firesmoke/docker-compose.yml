@@ -57,7 +57,6 @@ services:
       - API_KEY=${API_KEY_PIPELINE}
 
       - YOLO_CONFIG_DIR=/app/.ultralytics
-
     volumes:
       - ./model:/app/model:ro
       - ./video_data:/app/video_data
@@ -72,6 +71,67 @@ services:
       retries: 3
       start_period: 30s
 
+  firesmoke-amqp-bridge:
+    image: beesar/analytics-firesmoke:latest
+    profiles: ["analytics", "all", "pipeline", "firesmoke"]
+    container_name: nayarta-analytics-firesmoke-amqp-bridge
+    restart: unless-stopped
+    # env_file:
+    #   - .env
+    environment:
+      # ========= API ENDPOINTS =========
+      - BASE_URL=${API_BASE_URL_ANALYTICS:-http://${HOST_IP:-localhost}:8457/api/v1}
+      - GET_VIDEO_DETAIL_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/
+      - GET_VIDEO_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/access-download-url
+      - UPLOAD_API_LINK=${API_BASE_URL_ANALYTICS}/files/key/
+      - REGISTER_FILE_API_LINK=${API_BASE_URL_ANALYTICS}/files/key
+      - URL_ANALYTIC_PROCESS=${API_BASE_URL_ANALYTICS}/files/key/analytic-processes/
+      - URL_ANALYTIC_POST=${API_BASE_URL_ANALYTICS}/analytics/key
+      - URL_ALERT=${API_BASE_URL_ANALYTICS}/alerts/key
+      - URL_ANALYTIC_CONFIG=${API_BASE_URL_ANALYTICS}/cctv-analytics/key/config/
+      - URL_PROCESSING_STATUS=${API_BASE_URL_ANALYTICS}/files/key/{id}/processing-status
+
+      # ========= CLICKHOUSE =========
+      - CH_HOST=${CLICKHOUSE_HOST}
+      - CH_UNAME=${CLICKHOUSE_USER}
+      - CH_PASSWORD=${CLICKHOUSE_PASSWORD}
+
+      # ========= RABBITMQ =========
+      - RABBITMQ_HOST=${HOST_IP}
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+
+      # ========= MQTT =========
+      - MQTT_BROKER=${HOST_IP}
+      - MQTT_PORT=${MQTT_PORT}
+      - MQTT_TOPIC=${MQTT_TOPIC:-nayai/analytic_update}
+      - MQTT_UNAME=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASSWORD}
+
+      # ========= POSTGRES =========
+      - PG_HOST=${DB_HOST_ANALYTICS:-${HOST_IP:-localhost}}
+      - PG_PORT=${DB_PORT_ANALYTICS}
+      - PG_DB=${DB_NAME_ANALYTICS:-analytics_db}
+      - PG_USER=${DB_USER_ANALYTICS:-admin}
+      - PG_PASS=${DB_PASSWORD_ANALYTICS:-change_me}
+
+      # ========= DIRECTORIES =========
+      - RUNTIME_FOLDER=${RUNTIME_FOLDER:-evidence}
+      - LOG_FOLDER=${LOG_FOLDER:-logs}
+
+      # ========= API KEY =========
+      - API_KEY=${API_KEY_PIPELINE}
+
+      - YOLO_CONFIG_DIR=/app/.ultralytics
+    command: python amqp_bridge.py
+    volumes:
+      - ./model:/app/model:ro
+      - ./video_data:/app/video_data
+      - ./evidence:/app/evidence
+      - ./logs:/app/logs
+    networks:
+      - nayarta-network
 
     # Default command is already set in dockerfile
     # Uncomment to override command
