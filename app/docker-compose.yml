@@ -27,6 +27,7 @@ services:
       - APP_ENVIRONMENT=${APP_ENVIRONMENT:-development}
       - APP_NAME=${APP_NAME:-vms-backend}
       - BASE_URL=${BASE_URL:-http://localhost:8457/api/v1}
+      - API_KEYS=${API_KEYS}
       
       # Database Connection (from database service)
       - DB_NAME=${DB_NAME:-vms_development}
@@ -92,7 +93,7 @@ services:
 
   admin:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-admin:onprem-latest
+    image: beesar/beesar-vms-admin:latest
     container_name: nayarta-vms-admin
     restart: unless-stopped
     ports:
@@ -108,7 +109,7 @@ services:
 
   frontend:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-cloud:onprem-latest
+    image: beesar/beesar-vms-cloud:latest
     container_name: nayarta-vms-frontend
     restart: unless-stopped
     ports:
