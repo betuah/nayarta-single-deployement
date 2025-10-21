@@ -38,7 +38,7 @@ services:
       sh -c "python nayaiweb/manage.py migrate &&
              python nayaiweb/manage.py runserver 0.0.0.0:8000"
     networks:
-      - nayai-network
+      - nayarta-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
@@ -77,7 +77,7 @@ services:
       - DEBUG=${DEBUG:-False}
     command: python scheduler_pika.py
     networks:
-      - nayai-network
+      - nayarta-network
     depends_on:
       - scheduler-ui
     healthcheck:
