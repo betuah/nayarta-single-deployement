@@ -13,7 +13,6 @@ cp .env.template .env
 
 > **Note:**  
 > You need to update the `HOST_IP` value every time your IP changes.
-> You must update this value every time your IP changes.
 
 ```bash
 docker compose --profile appstack up -d
@@ -32,8 +31,8 @@ docker logs <container_name> -f       # For stream container logs use -f flag
 ```
 
 
-# Additional command and information
-## Build multi platform support for image
+### Additional command and information
+#### Build multi platform support for image
 
 ```bash
 docker buildx version # Check existing buildx
@@ -48,7 +47,7 @@ docker buildx build \
   .
 ```
 
-## Manual Restore Database
+#### Manual Restore Database
 ```sh
 # 1️⃣ Restore global roles & permissions
 psql -U admin -d postgres -f /docker-entrypoint-initdb.d/globals.sql
@@ -64,8 +63,8 @@ pg_restore -U admin -d analytics_db /docker-entrypoint-initdb.d/analytics_db.dum
 pg_restore -U admin -d schedulerdb /docker-entrypoint-initdb.d/schedulerdb.dump
 ```
 
-## NVIDIA Container toolkit
-### 1. Add NVIDIA package repositories
+#### NVIDIA Container toolkit
+##### 1. Add NVIDIA package repositories
 ```bash
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
