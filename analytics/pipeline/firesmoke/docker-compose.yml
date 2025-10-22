@@ -94,6 +94,7 @@ services:
       - ch_host=${CLICKHOUSE_HOST}
       - ch_uname=${CLICKHOUSE_USER}
       - ch_password=${CLICKHOUSE_PASSWORD}
+      - ch_dbname=${CLICKHOUSE_DATABASE}
 
       # ========= RABBITMQ =========
       - RABBITMQ_HOST=${HOST_IP}
