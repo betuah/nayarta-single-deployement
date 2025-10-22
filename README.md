@@ -26,6 +26,11 @@ docker compose --profile all ps       # List all services
 docker compose --profile all stats    # Show container(s) resource usage statistics
 ```
 
+additional command for debuging
+```bash
+docker logs <container_name> -f       # For stream container logs use -f flag
+```
+
 
 # Additional command and information
 ## Build multi platform support for image
