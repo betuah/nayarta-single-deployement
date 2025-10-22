@@ -22,15 +22,25 @@ docker compose --profile app up -d
 ```
 
 ```bash
-docker compose --profile all stats                      # All services
+docker compose --profile all ps       # List all services
+docker compose --profile all stats    # Show container(s) resource usage statistics
 ```
 
+
+# Additional command and information
+## Build multi platform support for image
+
 ```bash
-docker build \
-  --build-arg NEXTAUTH_SECRET="5eLdNKVMGGfXR5gvTF70vArhjzuLYAU/2W+ue1mZ/A0=" \
-  --build-arg NEXTAUTH_URL="http://localhost:8456" \
-  --build-arg DATABASE_URL='postgres://db_manager:bd37f728d7bfb0e6a908b37e86ebfe8a2ee85faa@nayarta-postgres:5432/vms_development' \
-  -t beesar/beesar-vms-admin .
+docker buildx version # Check existing buildx
+docker buildx use # to switch if already axist multiple buildx
+docker buildx create --use # Create if no exist
+docker buildx inspect --bootstrap # to activated
+
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t beesar/analytics-scheduler:latest \
+  --push \
+  .
 ```
 
 ## Manual Restore Database
