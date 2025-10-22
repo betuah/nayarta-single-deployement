@@ -73,7 +73,7 @@ services:
 
   firesmoke-amqp-bridge:
     image: beesar/analytics-firesmoke:latest
-    profiles: ["analytics", "all", "pipeline", "firesmoke"]
+    profiles: ["analytics", "all", "pipeline", "firesmoke", "firesmoke-bridge"]
     container_name: nayarta-analytics-firesmoke-amqp-bridge
     restart: unless-stopped
     # env_file:
