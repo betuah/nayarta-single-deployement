@@ -4,12 +4,25 @@ Super clean dan modular Docker Compose setup dengan **include-based architecture
 
 ---
 
-## 📋 Common Commands
+### Quick Start
+
+Copy the template and update your configuration:
+```bash
+cp .env.template .env
+```
+
+> **Note:**  
+> You need to update the `HOST_IP` value every time your IP changes.
+> You must update this value every time your IP changes.
 
 ```bash
-docker-compose --profile all up -d                      # All services
-docker-compose --profile appstack up -d                 # App Stack services
-docker-compose --profile analytics up -d                # Analytics services
+docker compose --profile appstack up -d
+docker compose --profile analytics up -d
+docker compose --profile app up -d
+```
+
+```bash
+docker compose --profile all stats                      # All services
 ```
 
 ```bash
@@ -38,6 +51,7 @@ pg_restore -U admin -d schedulerdb /docker-entrypoint-initdb.d/schedulerdb.dump
 
 ## NVIDIA Container toolkit
 ### 1. Add NVIDIA package repositories
+```bash
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
 curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
@@ -52,3 +66,4 @@ sudo nvidia-ctk runtime configure --runtime=docker
 
 ### 4. Restart Docker
 sudo service docker restart
+```
