@@ -11,7 +11,7 @@ networks:
 
 services:
   mediamtx:
-    profiles: ["stream", "mediamtx", "all", "appstack"]
+    profiles: ["stream", "stream-cloud", "mediamtx-cloud", "all", "appstack"]
     image: bluenviron/mediamtx:latest-ffmpeg
     container_name: nayarta-stream
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
       - nayarta-network
 
   mediamtx-nvr:
-    profiles: ["stream-nvr", "mediamtx-nvr", "all", "appstack"]
+    profiles: ["stream","stream-nvr", "mediamtx-nvr", "all", "appstack"]
     image: bluenviron/mediamtx:latest-ffmpeg
     container_name: nayarta-stream-nvr
     restart: unless-stopped
