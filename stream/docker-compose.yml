@@ -15,14 +15,32 @@ services:
     image: bluenviron/mediamtx:latest-ffmpeg
     container_name: nayarta-stream
     restart: unless-stopped
-    # env_file:
-    #   - .env
     ports:
       - "8554:8554"   # RTSP
       - "8889:8889"   # WebRTC
       - "8888:8888"   # HLS
+      - "9999:9997"   # API
+      # - "9998:9998"   # Metrics
+    volumes:
+      - ./config/mediamtx.yml:/mediamtx.yml:ro
+      - ./data/mediamtx/recordings:/recordings
+      - ./data/mediamtx/hls:/hls
+    environment:
+      - MTX_CONF=/mediamtx.yml
+    networks:
+      - nayarta-network
+
+  mediamtx-nvr:
+    profiles: ["stream-nvr", "mediamtx-nvr", "all", "appstack"]
+    image: bluenviron/mediamtx:latest-ffmpeg
+    container_name: nayarta-stream-nvr
+    restart: unless-stopped
+    ports:
+      - "8555:8554"   # RTSP
+      # - "8889:8889"   # WebRTC
+      # - "8888:8888"   # HLS
       - "9997:9997"   # API
-      - "9998:9998"   # Metrics
+      # - "9998:9998"   # Metrics
     volumes:
       - ./config/mediamtx.yml:/mediamtx.yml:ro
       - ./data/mediamtx/recordings:/recordings
@@ -37,8 +55,6 @@ services:
     image: emqx/emqx:5.7.1
     container_name: nayarta-mqtt
     restart: unless-stopped
-    # env_file:
-    #   - .env
     ports:
       - "1883:1883"    # MQTT TCP
       - "8083:8083"    # MQTT WebSocket

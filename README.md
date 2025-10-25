@@ -51,10 +51,13 @@ docker compose --profile facesearch       # For facesearch
 docker compose --profile scheduler        # For scheduler api and scheduler script
 ```
 
-### Update from submodule
+### Command for submodule
 ```bash
+git submodule update --init --remote --recursive
 git submodule update --init --recursive
 git submodule update --remote 
+git submodule sync --recursive
+git submodule status 
 ```
 
 add submodule :
@@ -62,7 +65,7 @@ add submodule :
 git submodule add <repo-url> <path/destination>
 ```
 
-### Additional command and infogit rmation
+### Additional command 
 #### Build multi platform support for image
 
 ```bash

@@ -2,7 +2,7 @@ services:
   facesearch-api:
     image: beesar/analytics-facesearch:latest
     container_name: nayarta-analytics-facesearch
-    profiles: ["analytics", "all", "facesearch"]
+    profiles: ["analytics", "all", "facesearch", "pipeline"]
     volumes:
       - ./src:/app:delegated
     environment:

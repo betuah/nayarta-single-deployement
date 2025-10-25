@@ -6,7 +6,7 @@ networks:
 services:
   scheduler-ui:
     image: beesar/analytics-scheduler:latest
-    profiles: ["analytics", "all", "scheduler"]
+    profiles: ["analytics", "all", "scheduler", "pipeline"]
     container_name: nayarta-analytics-scheduler-ui
     restart: unless-stopped
     ports:
