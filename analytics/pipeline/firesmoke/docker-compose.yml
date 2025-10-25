@@ -74,8 +74,6 @@ services:
     profiles: ["analytics", "all", "pipeline", "firesmoke", "firesmoke-bridge"]
     container_name: nayarta-analytics-firesmoke-amqp-bridge
     restart: unless-stopped
-    # env_file:
-    #   - .env
     environment:
       # ========= API ENDPOINTS =========
       - BASE_URL=${API_BASE_URL_ANALYTICS}/api/v1
@@ -125,9 +123,6 @@ services:
     command: python amqp_bridge.py
     volumes:
       - ./src:/app:delegated
-      - ./video_data:/app/video_data
-      - ../shared_data/evidence:/app/evidence
-      - ../shared_data:/app/logs
     networks:
       - nayarta-network
 

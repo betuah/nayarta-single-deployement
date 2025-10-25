@@ -88,6 +88,8 @@ services:
       
       # Debug Mode
       - DEBUG=${DEBUG:-False}
+    volumes:
+      - ./src:/app:delegated
     command: python scheduler_pika.py
     networks:
       - nayarta-network
