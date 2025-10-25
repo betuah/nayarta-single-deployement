@@ -92,7 +92,7 @@ services:
       - nayarta-network
 
   admin:
-    profiles: ["app", "all"]
+    profiles: ["app","appstack", "all"]
     image: beesar/beesar-vms-admin:onprem-latest
     container_name: nayarta-vms-admin
     restart: unless-stopped
@@ -108,7 +108,7 @@ services:
       - nayarta-network
 
   frontend:
-    profiles: ["app", "all"]
+    profiles: ["app", "appstack", "all"]
     image: beesar/beesar-vms-cloud:onprem-latest
     container_name: nayarta-vms-frontend
     restart: unless-stopped
