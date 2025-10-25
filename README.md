@@ -53,10 +53,16 @@ docker compose --profile scheduler        # For scheduler api and scheduler scri
 
 ### Update from submodule
 ```bash
+git submodule update --init --recursive
 git submodule update --remote 
 ```
 
-### Additional command and information
+add submodule :
+```bash
+git submodule add <repo-url> <path/destination>
+```
+
+### Additional command and infogit rmation
 #### Build multi platform support for image
 
 ```bash

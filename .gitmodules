@@ -11,3 +11,18 @@
 [submodule "analytics/scheduler/src"]
 	path = analytics/scheduler/src
 	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/analytics-scheduler
+[submodule "analytics/pipeline/restricted_area/src"]
+	path = analytics/pipeline/restricted_area/src
+	url = https://dev.azure.com/beesar/Nayarta/_git/Analytic-RestrictedArea
+[submodule "analytics/pipeline/object_unattended/src"]
+	path = analytics/pipeline/object_unattended/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/Analytic-ObjectUnattended
+	branch = feat/jsonl
+[submodule "analytics/pipeline/people_converge/src"]
+	path = analytics/pipeline/people_converge/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/Analytic-PeopleConverge
+	branch = feat/jsonl
+[submodule "analytics/pipeline/hse_safety/src"]
+	path = analytics/pipeline/hse_safety/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/analytics_hse_safety
+	branch = feat/jsonl
