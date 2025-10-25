@@ -62,7 +62,7 @@ apiAllowOrigin: '*'
 #apiTrustedProxies: []
 
 # WebRTC global settings
-webrtc: no
+webrtc: yes
 webrtcAddress: :8889
 #webrtcIceServers2: [stun:stun.l.google.com:19302]
 webrtcEncryption: no
@@ -74,7 +74,7 @@ webrtcLocalTCPAddress: :8189
 webrtcICEServers2:
   - url: stun:stun.l.google.com:19302
 webrtcIPsFromInterfaces: no
-webrtcAdditionalHosts: ["stream.nayarta.id", "157.245.144.112"]
+webrtcAdditionalHosts: ["localhost", "127.0.0.1"]
 webrtcHandshakeTimeout: 20s
 webrtcTrackGatherTimeout: 5s
 webrtcSTUNGatherTimeout: 10s
