@@ -14,15 +14,26 @@ cp .env.template .env
 > **Note:**  
 > You need to update the `HOST_IP` value every time your IP changes.
 
+For run the services
 ```bash
-docker compose --profile appstack up -d
-docker compose --profile analytics up -d
-docker compose --profile app up -d
+docker compose --profile appstack up -d   # For VMS
+docker compose --profile analytics up -d  # For Analytics
 ```
 
+For shutdown the services
 ```bash
-docker compose --profile all ps       # List all services
-docker compose --profile all stats    # Show container(s) resource usage statistics
+docker compose --profile appstack down    # For VMS
+docker compose --profile analytics down   # For Analytics
+```
+
+Run All Services VMS and Analytics
+```bash
+docker compose --profile all up -d
+```
+
+Shutdown All Services VMS and Analytics
+```bash
+docker compose --profile all down
 ```
 
 additional command for debuging
@@ -30,6 +41,15 @@ additional command for debuging
 docker logs <container_name> -f       # For stream container logs use -f flag
 ```
 
+### Aditional profile command for any services
+```bash
+docker compose --profile analytics        # For all analytics
+docker compose --profile analytics-system # For Clickhouse and Rabbitmq
+docker compose --profile pipeline         # For all pipeline service (scheduler, task, firesmome, amqp_bridge)
+docker compose --profile firesmoke        # For firesmoke and amqp-bridge
+docker compose --profile facesearch       # For facesearch
+docker compose --profile scheduler        # For scheduler api and scheduler script
+```
 
 ### Additional command and information
 #### Build multi platform support for image

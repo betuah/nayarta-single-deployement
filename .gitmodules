@@ -1,0 +1,12 @@
+[submodule "analytics/facesearch/src"]
+	path = analytics/facesearch/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/analytic-FaceSearchEndpoint
+[submodule "analytics/pipeline/task/src"]
+	path = analytics/pipeline/task/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/analytic_tasks
+[submodule "analytics/pipeline/firesmoke/src"]
+	path = analytics/pipeline/firesmoke/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/analytic-fire_smoke
+[submodule "analytics/scheduler/src"]
+	path = analytics/scheduler/src
+	url = https://beesar@dev.azure.com/beesar/Nayarta/_git/analytics-scheduler
