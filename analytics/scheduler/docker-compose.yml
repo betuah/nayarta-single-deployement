@@ -50,6 +50,8 @@ services:
       "
     networks:
       - nayarta-network
+    volumes:
+      - ./src:/app:delegated
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
