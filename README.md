@@ -51,6 +51,11 @@ docker compose --profile facesearch       # For facesearch
 docker compose --profile scheduler        # For scheduler api and scheduler script
 ```
 
+### Update from submodule
+```bash
+git submodule update --remote 
+```
+
 ### Additional command and information
 #### Build multi platform support for image
 
