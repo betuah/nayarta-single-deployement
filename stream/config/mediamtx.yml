@@ -66,14 +66,13 @@ webrtc: yes
 webrtcAddress: :8889
 #webrtcIceServers2: [stun:stun.l.google.com:19302]
 webrtcEncryption: no
-webrtcServerKey: /etc/letsencrypt/live/stream.nayarta.id-0001/privkey.pem
-webrtcServerCert: /etc/letsencrypt/live/stream.nayarta.id-0001/fullchain.pem
 webrtcAllowOrigin: '*'
 webrtcLocalUDPAddress: :8189
 webrtcLocalTCPAddress: :8189
 webrtcICEServers2:
   - url: stun:stun.l.google.com:19302
-webrtcIPsFromInterfaces: no
+webrtcIPsFromInterfaces: yes
+webrtcIPsFromInterfacesList: []
 webrtcAdditionalHosts: ["localhost", "127.0.0.1"]
 webrtcHandshakeTimeout: 20s
 webrtcTrackGatherTimeout: 5s
