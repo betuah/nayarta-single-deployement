@@ -14,7 +14,7 @@ networks:
 
 services:
   api:
-    profiles: ["app", "all"]
+    profiles: ["app", "appstack", "all"]
     image: beesar/beesar-vms-dev:latest
     container_name: nayarta-vms-api
     restart: unless-stopped
@@ -93,7 +93,7 @@ services:
 
   admin:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-admin:latest
+    image: beesar/beesar-vms-admin:onprem-latest
     container_name: nayarta-vms-admin
     restart: unless-stopped
     ports:
@@ -109,7 +109,7 @@ services:
 
   frontend:
     profiles: ["app", "all"]
-    image: beesar/beesar-vms-cloud:latest
+    image: beesar/beesar-vms-cloud:onprem-latest
     container_name: nayarta-vms-frontend
     restart: unless-stopped
     ports:
