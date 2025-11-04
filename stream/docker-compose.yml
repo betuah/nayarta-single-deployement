@@ -21,7 +21,7 @@ services:
       - "8189:8189/tcp"   # WebRTC Local TCP
       - "8189:8189/udp"   # WebRTC Local UDP
       - "8888:8888"   # HLS
-      - "9999:9997"   # API
+      # - "9999:9997"   # API
       # - "9998:9998"   # Metrics
     volumes:
       - ./config/mediamtx.yml:/mediamtx.yml:ro
