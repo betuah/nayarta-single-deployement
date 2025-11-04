@@ -18,12 +18,13 @@ services:
     ports:
       - "8554:8554"   # RTSP
       - "8889:8889"   # WebRTC
+      - "8189:8189/tcp"   # WebRTC Local TCP
+      - "8189:8189/udp"   # WebRTC Local UDP
       - "8888:8888"   # HLS
       - "9999:9997"   # API
       # - "9998:9998"   # Metrics
     volumes:
       - ./config/mediamtx.yml:/mediamtx.yml:ro
-      - ./data/mediamtx/recordings:/recordings
       - ./data/mediamtx/hls:/hls
     environment:
       - MTX_CONF=/mediamtx.yml
@@ -37,18 +38,34 @@ services:
     restart: unless-stopped
     ports:
       - "8555:8554"   # RTSP
-      # - "8889:8889"   # WebRTC
-      # - "8888:8888"   # HLS
       - "9997:9997"   # API
-      # - "9998:9998"   # Metrics
+    #   # - "9998:9998"   # Metrics
     volumes:
-      - ./config/mediamtx.yml:/mediamtx.yml:ro
-      - ./data/mediamtx/recordings:/recordings
+      - ./config/mediamtx-local.yml:/mediamtx.yml:ro
       - ./data/mediamtx/hls:/hls
     environment:
       - MTX_CONF=/mediamtx.yml
     networks:
       - nayarta-network
+  
+  # mediamtx-cam:
+  #   profiles: ["stream", "stream-camera", "all", "appstack"]
+  #   image: bluenviron/mediamtx:latest-ffmpeg
+  #   container_name: nayarta-camera
+  #   # ports:
+  #   #   - "8556:8554"   # RTSP
+  #   restart: unless-stopped
+  #   networks:
+  #     - nayarta-network
+
+  # stream-test:
+  #   image: linuxserver/ffmpeg
+  #   container_name: stream-test
+  #   command: -re -stream_loop -1 -fflags +genpts -i /videos/sample.mp4 -vf scale=640:480 -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1000k -maxrate 1000k -bufsize 2000k -c:a aac -ar 44100 -use_wallclock_as_timestamps 1 -rtsp_transport tcp -f rtsp rtsp://mediamtx-cam:8554/test
+  #   volumes:
+  #     - ./video:/videos
+  #   networks:
+  #     - nayarta-network
 
   emqx:
     profiles: ["stream", "mqtt", "all", "appstack"]
@@ -91,8 +108,8 @@ services:
       # Logging
       - EMQX_LOG__CONSOLE__LEVEL=info
     volumes:
-      - ./data/emqx/data:/opt/emqx/data
-      - ./data/emqx/log:/opt/emqx/log
+      - ./data/emqx/data:/opt/emqx/data:rw
+      - ./data/emqx/log:/opt/emqx/log:rw
     networks:
       - nayarta-network
     healthcheck:

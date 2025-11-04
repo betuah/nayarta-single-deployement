@@ -69,11 +69,12 @@ webrtcEncryption: no
 webrtcAllowOrigin: '*'
 webrtcLocalUDPAddress: :8189
 webrtcLocalTCPAddress: :8189
-webrtcICEServers2:
-  - url: stun:stun.l.google.com:19302
-webrtcIPsFromInterfaces: yes
-webrtcIPsFromInterfacesList: []
-webrtcAdditionalHosts: ["localhost", "127.0.0.1"]
+# webrtcICEServers2:
+#   - url: stun:stun.l.google.com:19302
+webrtcIPsFromInterfaces: no
+webrtcIPsFromInterfacesList: ["eth0", "lo"]
+webrtcAdditionalHosts: ["localhost", "127.0.0.1", "host.docker.internal"]
+webrtcICEServers2: []
 webrtcHandshakeTimeout: 20s
 webrtcTrackGatherTimeout: 5s
 webrtcSTUNGatherTimeout: 10s
