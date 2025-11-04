@@ -26,7 +26,7 @@ services:
       MINIO_BROWSER: "on"
       MINIO_PROMETHEUS_AUTH_TYPE: "public"
     volumes:
-      - ./data:/data
+      - ./data:/data:rw
     command: server /data --console-address ":9001"
     networks:
       - nayarta-network

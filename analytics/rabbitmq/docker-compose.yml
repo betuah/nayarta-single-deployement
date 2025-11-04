@@ -27,8 +27,8 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-nayarta_rabbitmq_password}
       RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-nayarta}
     volumes:
-      - ./data:/var/lib/rabbitmq
-      - ./logs:/var/log/rabbitmq
+      - ./data:/var/lib/rabbitmq:rw
+      - ./logs:/var/log/rabbitmq:rw
     networks:
       - nayarta-network
     healthcheck:
